@@ -23,23 +23,18 @@ import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.jagrosh.jdautilities.examples.command.PingCommand;
 import com.jagrosh.jmusicbot.commands.admin.PrefixCmd;
-import com.jagrosh.jmusicbot.commands.admin.SetGramophoneCmd;
 import com.jagrosh.jmusicbot.commands.admin.SetdjCmd;
 import com.jagrosh.jmusicbot.commands.admin.SettcCmd;
 import com.jagrosh.jmusicbot.commands.admin.SetvcCmd;
 import com.jagrosh.jmusicbot.commands.admin.SkipratioCmd;
-import com.jagrosh.jmusicbot.commands.admin.sm;
-import com.jagrosh.jmusicbot.commands.admin.smnr;
 import com.jagrosh.jmusicbot.commands.dj.ForceRemoveCmd;
 import com.jagrosh.jmusicbot.commands.dj.ForceskipCmd;
 import com.jagrosh.jmusicbot.commands.dj.MoveTrackCmd;
-import com.jagrosh.jmusicbot.commands.dj.PauseCmd;
 import com.jagrosh.jmusicbot.commands.dj.PlaynextCmd;
 import com.jagrosh.jmusicbot.commands.dj.RepeatCmd;
 import com.jagrosh.jmusicbot.commands.dj.SkiptoCmd;
 import com.jagrosh.jmusicbot.commands.dj.StopCmd;
 import com.jagrosh.jmusicbot.commands.dj.VolumeCmd;
-import com.jagrosh.jmusicbot.commands.general.SetDJCmd;
 import com.jagrosh.jmusicbot.commands.general.SettingsCmd;
 import com.jagrosh.jmusicbot.commands.jankbot.DurstButtonListener;
 import com.jagrosh.jmusicbot.commands.jankbot.DurstCmd;
@@ -54,6 +49,7 @@ import com.jagrosh.jmusicbot.commands.jankbot.OtherCommandListener;
 import com.jagrosh.jmusicbot.commands.jankbot.QuitSibeliusListener;
 import com.jagrosh.jmusicbot.commands.music.LyricsCmd;
 import com.jagrosh.jmusicbot.commands.music.NowplayingCmd;
+import com.jagrosh.jmusicbot.commands.music.PauseCmd;
 import com.jagrosh.jmusicbot.commands.music.PlayCmd;
 import com.jagrosh.jmusicbot.commands.music.QueueButtonListener;
 import com.jagrosh.jmusicbot.commands.music.QueueCmd;
@@ -72,6 +68,9 @@ import com.jagrosh.jmusicbot.commands.owner.SetgameCmd;
 import com.jagrosh.jmusicbot.commands.owner.SetnameCmd;
 import com.jagrosh.jmusicbot.commands.owner.SetstatusCmd;
 import com.jagrosh.jmusicbot.commands.owner.ShutdownCmd;
+import com.jagrosh.jmusicbot.commands.tantamod.SetDJCmd;
+import com.jagrosh.jmusicbot.commands.tantamod.SetGramophoneCmd;
+import com.jagrosh.jmusicbot.commands.tantamod.TalkCmd;
 import com.jagrosh.jmusicbot.entities.Prompt;
 import com.jagrosh.jmusicbot.settings.SettingsManager;
 
@@ -185,8 +184,7 @@ public class JMusicBot
                         new DurstCmd(bot),
                         new JankmanCmd(bot),
                         new SetGramophoneCmd(bot),
-                        new sm(bot),
-                        new smnr(bot),
+                        new TalkCmd(bot),
                         fc
                 );
         if(config.useEval())
@@ -203,23 +201,7 @@ public class JMusicBot
         }
         else
             cb.setActivity(config.getGame());
-        
-        // if(!prompt.isNoGUI())
-        // {
-        //     try 
-        //     {
-        //         GUI gui = new GUI(bot);
-        //         bot.setGUI(gui);
-        //         gui.init();
-        //     } 
-        //     catch(Exception e) 
-        //     {
-        //         log.error("Could not start GUI. If you are "
-        //                 + "running on a server or in a location where you cannot display a "
-        //                 + "window, please run in nogui mode using the -Dnogui=true flag.");
-        //     }
-        // }
-        
+                
         log.info("Loaded config from " + config.getConfigLocation());
         
         // attempt to log in and start

@@ -15,7 +15,11 @@
  */
 package com.jagrosh.jmusicbot;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
+import java.util.Timer;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -47,12 +51,13 @@ public class Bot {
     private final NowplayingHandler nowplaying;
     private final AloneInVoiceHandler aloneInVoiceHandler;
 
-    private boolean dj_mode;
     private boolean shuttingDown = false;
     private JDA jda;
     private GUI gui;
     private CommandClient cc;
-    private boolean gramophone_mode = false;
+    private HashMap<Guild, Timer> gram_dj_timers = new HashMap<Guild, Timer>();
+    private List<Long> gramophone_guilds = new ArrayList<Long>();
+    private List<Long> dj_guilds = new ArrayList<Long>();
 
     public Bot(EventWaiter waiter, BotConfig config, SettingsManager settings) {
         this.waiter = waiter;
@@ -66,7 +71,6 @@ public class Bot {
         this.nowplaying.init();
         this.aloneInVoiceHandler = new AloneInVoiceHandler(this);
         this.aloneInVoiceHandler.init();
-        this.dj_mode = false;
     }
 
     public BotConfig getConfig() {
@@ -148,12 +152,22 @@ public class Bot {
         this.gui = gui;
     }
 
-    public void setDJMode(boolean val) {
-        this.dj_mode = val;
+    public void setDJMode(Guild guild, boolean val, Timer timer) {
+        if(val){
+            if(!dj_guilds.contains(guild.getIdLong()))
+                dj_guilds.add(guild.getIdLong());
+            if(timer != null)
+                gram_dj_timers.put(guild, timer);
+        } else {
+            if(dj_guilds.contains(guild.getIdLong()))
+                dj_guilds.remove(guild.getIdLong());
+            if(gram_dj_timers.containsKey(guild))
+                gram_dj_timers.remove(guild);
+        }
     }
 
-    public boolean getDJMode() {
-        return this.dj_mode;
+    public boolean getDJMode(Guild guild) {
+        return this.dj_guilds.contains(guild.getIdLong());
     }
 
     public void setCommandClient(CommandClient cc) {
@@ -164,12 +178,44 @@ public class Bot {
         return this.cc;
     }
 
-    public void setGramophoneMode(boolean mode){
-        this.gramophone_mode = mode;
+    public void setGramophoneMode(Guild guild, boolean mode, Timer timer) {
+        if(mode){
+            if (!gramophone_guilds.contains(guild.getIdLong()))
+                gramophone_guilds.add(guild.getIdLong());
+            if (timer != null){
+                gram_dj_timers.put(guild, timer);
+            }
+        }
+        else{
+            if(gramophone_guilds.contains(guild.getIdLong()))
+                gramophone_guilds.remove(guild.getIdLong());
+            if (gram_dj_timers.containsKey(guild)){
+                gram_dj_timers.get(guild).cancel();
+                gram_dj_timers.remove(guild);
+            }
+        }
     }
 
-    public boolean getGramophoneMode(){
-        return this.gramophone_mode;
+    public boolean getGramophoneMode(Guild guild){
+        return this.gramophone_guilds.contains(guild.getIdLong());
+    }
+
+    public void addGDJTimer(Guild guild, Timer timer) {
+        gram_dj_timers.put(guild, timer);
+    }
+
+    public void removeGDJTimer(Guild guild) {
+        gram_dj_timers.remove(guild);
+    }
+
+    public void cancelGDJTimer(Guild guild) {
+        Timer timer = gram_dj_timers.get(guild);
+        if (timer != null)
+            timer.cancel();
+    }
+
+    public boolean GDJTimerExists(Guild guild){
+        return gram_dj_timers.containsKey(guild);
     }
 
 }

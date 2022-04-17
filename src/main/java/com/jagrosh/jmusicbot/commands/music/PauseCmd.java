@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jagrosh.jmusicbot.commands.dj;
+package com.jagrosh.jmusicbot.commands.music;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jmusicbot.Bot;
@@ -33,6 +33,7 @@ public class PauseCmd extends MusicCommand
         this.help = "pauses the current song";
         this.aliases = bot.getConfig().getAliases(this.name);
         this.bePlaying = true;
+        this.beListening = true;
     }
 
     @Override

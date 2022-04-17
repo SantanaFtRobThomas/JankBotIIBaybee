@@ -196,7 +196,7 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
             StageChannel sc = (StageChannel) manager.getBot().getJDA().getGuildById(638309926225313832L).getSelfMember().getVoiceState().getChannel();
             if(sc.getStageInstance() != null) sc.getGuild().requestToSpeak();
         }
-        if(manager.getBot().getGramophoneMode()){
+        if(manager.getBot().getGramophoneMode(manager.getBot().getJDA().getGuildById(guildId))){
             manager.getBot().getJDA().getTextChannelById(850700283767554068L).sendMessage("GRAMOPHONE MODE: \"" + track.getInfo().title + "\" queued and ready to play.").queue();
             player.setPaused(true);
         }

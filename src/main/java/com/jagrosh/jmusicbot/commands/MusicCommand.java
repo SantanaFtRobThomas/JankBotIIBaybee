@@ -47,7 +47,7 @@ public abstract class MusicCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        if (this.bot.getDJMode()) {
+        if (this.bot.getDJMode(event.getGuild()) || this.bot.getGramophoneMode(event.getGuild())) {
             if (!checkPermission(event)) {
                 event.reply("Sorry, DJ Mode is on!");
                 return;

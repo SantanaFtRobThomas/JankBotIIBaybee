@@ -39,7 +39,7 @@ public class ShuffleCmd extends MusicCommand
     @Override
     public void doCommand(CommandEvent event) 
     {
-        if(bot.getGramophoneMode()) return;
+        if(bot.getGramophoneMode(event.getGuild())) return;
         AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
         int s = handler.getQueue().shuffle(event.getAuthor().getIdLong());
         switch (s) 
