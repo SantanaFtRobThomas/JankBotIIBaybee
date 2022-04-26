@@ -39,14 +39,26 @@ public abstract class TantamodCommand extends Command {
         Pattern r = Pattern.compile("(\\d+)[hH]");
         Matcher m = r.matcher(time);
         if(m.find()) {
-            long hours = Long.parseLong(m.group(1));
-            ms += hours * 60 * 60 * 1000;
+            try {
+                long hours = Long.parseLong(m.group(1));
+                ms += hours * 60 * 60 * 1000;
+            } catch (NumberFormatException e) {
+                return -2;
+            }
+            
         }
         r = Pattern.compile("(\\d+)[mM]");
         m = r.matcher(time);
         if(m.find()) {
-            long minutes = Long.parseLong(m.group(1));
-            ms += minutes * 60 * 1000;
+            try {
+                long minutes = Long.parseLong(m.group(1));
+                ms += minutes * 60 * 1000;
+            } catch (NumberFormatException e) {
+                return -2;
+            }
+        }
+        if(ms > Math.pow(2, 32) || ms < 1) {
+            return -2;
         }
         return ms;
     }
@@ -58,6 +70,6 @@ public abstract class TantamodCommand extends Command {
         hours = (int) (ms / 3600000);
         ms -= hours * 3600000;
         mins = (int) (ms / 60000);
-        return (days > 0 ? days + (days > 1 ? "days, " : "day, "): "") + hours + (hours != 1 ? " hours and " : " hour and ") + mins + (mins != 1 ? " minutes." : "minute.");
+        return (days > 0 ? days + (days > 1 ? "days, " : "day, "): "") + hours + (hours != 1 ? " hours and " : " hour and ") + mins + (mins != 1 ? " minutes." : " minute.");
     }
 }

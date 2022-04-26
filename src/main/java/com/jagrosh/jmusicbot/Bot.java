@@ -161,8 +161,11 @@ public class Bot {
         } else {
             if(dj_guilds.contains(guild.getIdLong()))
                 dj_guilds.remove(guild.getIdLong());
-            if(gram_dj_timers.containsKey(guild))
+            if(gram_dj_timers.containsKey(guild)){
+                gram_dj_timers.get(guild).cancel();
                 gram_dj_timers.remove(guild);
+            }
+                
         }
     }
 

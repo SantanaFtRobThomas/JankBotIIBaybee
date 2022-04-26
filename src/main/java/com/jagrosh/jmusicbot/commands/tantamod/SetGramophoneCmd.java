@@ -9,6 +9,7 @@ import com.jagrosh.jmusicbot.commands.TantamodCommand;
 
 public class SetGramophoneCmd extends TantamodCommand {
     private final long default_time = 130L * 60000L;
+
     public SetGramophoneCmd(Bot bot) {
         super(bot);
         this.name = "gramophone";
@@ -36,6 +37,9 @@ public class SetGramophoneCmd extends TantamodCommand {
                         event.replyError(
                                 "Invalid time specified. Specify in the form `<time><unit>` (e.g. `5m` or `2h10m`)");
                         return;
+                    } else if (time == -2) {
+                        event.replyError("Don't be silly.");
+                        return;
                     }
                 } else {
                     time = default_time;
@@ -60,7 +64,8 @@ public class SetGramophoneCmd extends TantamodCommand {
                 event.reply("Gramophone Mode Off.");
                 break;
             case "":
-                event.reply("Gramophone Mode is currently " + (this.bot.getGramophoneMode(event.getGuild()) ? "ON" : "OFF") + ".");
+                event.reply("Gramophone Mode is currently "
+                        + (this.bot.getGramophoneMode(event.getGuild()) ? "ON" : "OFF") + ".");
                 break;
             default:
                 event.reply("Didn't understand. j!gramophone <on|off> <time>");

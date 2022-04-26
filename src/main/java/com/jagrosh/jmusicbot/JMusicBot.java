@@ -36,17 +36,16 @@ import com.jagrosh.jmusicbot.commands.dj.SkiptoCmd;
 import com.jagrosh.jmusicbot.commands.dj.StopCmd;
 import com.jagrosh.jmusicbot.commands.dj.VolumeCmd;
 import com.jagrosh.jmusicbot.commands.general.SettingsCmd;
-import com.jagrosh.jmusicbot.commands.jankbot.DurstButtonListener;
 import com.jagrosh.jmusicbot.commands.jankbot.DurstCmd;
-import com.jagrosh.jmusicbot.commands.jankbot.FistChordEventListener;
 import com.jagrosh.jmusicbot.commands.jankbot.FistchordCmd;
-import com.jagrosh.jmusicbot.commands.jankbot.JankedexButtonListener;
 import com.jagrosh.jmusicbot.commands.jankbot.JankedexCmd;
 import com.jagrosh.jmusicbot.commands.jankbot.JankmanCmd;
-import com.jagrosh.jmusicbot.commands.jankbot.LogoButtonListener;
 import com.jagrosh.jmusicbot.commands.jankbot.LogoCmd;
-import com.jagrosh.jmusicbot.commands.jankbot.OtherCommandListener;
-import com.jagrosh.jmusicbot.commands.jankbot.QuitSibeliusListener;
+import com.jagrosh.jmusicbot.commands.listeners.DurstButtonListener;
+import com.jagrosh.jmusicbot.commands.listeners.JankedexButtonListener;
+import com.jagrosh.jmusicbot.commands.listeners.LogoButtonListener;
+import com.jagrosh.jmusicbot.commands.listeners.OtherCommandListener;
+import com.jagrosh.jmusicbot.commands.listeners.QuitSibeliusListener;
 import com.jagrosh.jmusicbot.commands.music.LyricsCmd;
 import com.jagrosh.jmusicbot.commands.music.NowplayingCmd;
 import com.jagrosh.jmusicbot.commands.music.PauseCmd;
@@ -68,6 +67,7 @@ import com.jagrosh.jmusicbot.commands.owner.SetgameCmd;
 import com.jagrosh.jmusicbot.commands.owner.SetnameCmd;
 import com.jagrosh.jmusicbot.commands.owner.SetstatusCmd;
 import com.jagrosh.jmusicbot.commands.owner.ShutdownCmd;
+import com.jagrosh.jmusicbot.commands.tantamod.GenerateGramophonePlaylistCmd;
 import com.jagrosh.jmusicbot.commands.tantamod.SetDJCmd;
 import com.jagrosh.jmusicbot.commands.tantamod.SetGramophoneCmd;
 import com.jagrosh.jmusicbot.commands.tantamod.TalkCmd;
@@ -185,6 +185,7 @@ public class JMusicBot
                         new JankmanCmd(bot),
                         new SetGramophoneCmd(bot),
                         new TalkCmd(bot),
+                        new GenerateGramophonePlaylistCmd(bot),
                         fc
                 );
         if(config.useEval())
@@ -220,8 +221,7 @@ public class JMusicBot
                     new DurstButtonListener(),
                     new QuitSibeliusListener(),
                     new QueueButtonListener(),
-                    new OtherCommandListener(cb.build(), bot),
-                    new FistChordEventListener(fc))
+                    new OtherCommandListener(cb.build(), bot))
                     .setBulkDeleteSplittingEnabled(true)
                     .build();
             bot.setJDA(jda);

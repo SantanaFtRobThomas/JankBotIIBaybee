@@ -56,6 +56,9 @@ public class SetDJCmd extends TantamodCommand
                         event.replyError(
                                 "Invalid time specified. Specify in the form `<time><unit>` (e.g. `5m` or `2h10m`)");
                         return;
+                    } else if (time == -2) {
+                        event.replyError("Don't be silly.");
+                        return;
                     }
                 } else {
                     time = default_time;
@@ -73,14 +76,14 @@ public class SetDJCmd extends TantamodCommand
                 break;
             case "off":
                 if (!bot.getDJMode(event.getGuild())) {
-                    event.reply("Gramophone mode is not enabled.");
+                    event.reply("DJ mode is not enabled.");
                     return;
                 }
-                bot.setGramophoneMode(event.getGuild(), false, null);
+                bot.setDJMode(event.getGuild(), false, null);
                 event.reply("DJ Mode Off.");
                 break;
             case "":
-                event.reply("DJ Mode is currently " + (this.bot.getGramophoneMode(event.getGuild()) ? "ON" : "OFF") + ".");
+                event.reply("DJ Mode is currently " + (this.bot.getDJMode(event.getGuild()) ? "ON" : "OFF") + ".");
                 break;
             default:
                 event.reply("Didn't understand. j!dj <on|off> <time>");

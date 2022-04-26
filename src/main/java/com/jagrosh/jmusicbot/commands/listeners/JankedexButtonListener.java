@@ -1,4 +1,4 @@
-package com.jagrosh.jmusicbot.commands.jankbot;
+package com.jagrosh.jmusicbot.commands.listeners;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -15,6 +15,9 @@
  */
 package com.jagrosh.jmusicbot;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +59,7 @@ public class Listener extends ListenerAdapter
         {
             try
             {
+                System.out.println(guild);
                 String defpl = bot.getSettingsManager().getSettings(guild).getDefaultPlaylist();
                 AudioChannel vc = bot.getSettingsManager().getSettings(guild).getVoiceChannel(guild);
                 if(defpl!=null && vc!=null && bot.getPlayerManager().setUpHandler(guild).playFromDefault())

@@ -1,4 +1,4 @@
-package com.jagrosh.jmusicbot.commands.jankbot;
+package com.jagrosh.jmusicbot.commands.listeners;
 
 import java.io.File;
 
@@ -10,9 +10,11 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 public class QuitSibeliusListener extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        if(event.getMessage().getContentRaw().equals("quit sibelius") || event.getMessage().getContentRaw().equals("<:quit1:737227012435083274><:quit2:737226986191061013>")
-           || event.getMessage().getContentRaw().equals("<:quit1:737227012435083274> <:quit2:737226986191061013>")) {
-            event.getChannel().sendMessage("Quit sibelius?").setActionRow(Button.primary("QUIT_SIBELIUS", "Quit Sibelius")).queue();
+        if((event.getMessage().getContentRaw().toLowerCase().contains("quit sibelius")
+                || event.getMessage().getContentRaw().equals("<:quit1:737227012435083274><:quit2:737226986191061013>")
+                || event.getMessage().getContentRaw().equals("<:quit1:737227012435083274> <:quit2:737226986191061013>")) 
+                && !event.getMessage().getAuthor().isBot()) {
+            event.getChannel().sendMessage("Quit Sibelius?").setActionRow(Button.primary("QUIT_SIBELIUS", "Quit Sibelius")).queue();
         }
     }
 
