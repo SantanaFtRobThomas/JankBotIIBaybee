@@ -53,7 +53,7 @@ public class QueueCmd extends MusicCommand {
         this.aliases = new String[] { "q" };
         this.bePlaying = true;
         this.botPermissions = new Permission[] { Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_EMBED_LINKS };
-        // bot.
+        this.DJModeAllowed = true;
     }
 
     @Override

@@ -130,7 +130,7 @@ public class FairQueue<T extends Queueable> {
     }
 
     public int getNumberOfPages() {
-        return (this.list.size() / 10) + 1;
+        return ((this.list.size()) / 10) + 1;
     }
 
     public void setLastMessage(Message msg) {

@@ -38,18 +38,27 @@ public abstract class MusicCommand extends Command {
     protected final Bot bot;
     protected boolean bePlaying;
     protected boolean beListening;
+    protected boolean DJModeAllowed;
+    protected boolean GramophoneModeAllowed;
 
     public MusicCommand(Bot bot) {
         this.bot = bot;
         this.guildOnly = true;
         this.category = new Category("Music");
+        this.DJModeAllowed = false;
+        this.GramophoneModeAllowed = false;
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        if (this.bot.getDJMode(event.getGuild()) || this.bot.getGramophoneMode(event.getGuild())) {
-            if (!checkPermission(event)) {
+        if (!checkPermission(event)) {
+            if (this.bot.getDJMode(event.getGuild()) && !this.DJModeAllowed) {
                 event.reply("Sorry, DJ Mode is on!");
+                return;
+            }
+
+            if (this.bot.getGramophoneMode(event.getGuild()) && !this.GramophoneModeAllowed) {
+                event.reply("Sorry, Gramophone Mode is on!");
                 return;
             }
         }

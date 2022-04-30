@@ -19,6 +19,7 @@ import java.util.Arrays;
 
 import javax.security.auth.login.LoginException;
 
+import com.google.maps.GeoApiContext;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.jagrosh.jdautilities.examples.command.PingCommand;
@@ -40,7 +41,11 @@ import com.jagrosh.jmusicbot.commands.jankbot.DurstCmd;
 import com.jagrosh.jmusicbot.commands.jankbot.FistchordCmd;
 import com.jagrosh.jmusicbot.commands.jankbot.JankedexCmd;
 import com.jagrosh.jmusicbot.commands.jankbot.JankmanCmd;
+import com.jagrosh.jmusicbot.commands.jankbot.KittyCmd;
 import com.jagrosh.jmusicbot.commands.jankbot.LogoCmd;
+import com.jagrosh.jmusicbot.commands.jankbot.TimeCmd;
+import com.jagrosh.jmusicbot.commands.jankbot.XkcdCmd;
+import com.jagrosh.jmusicbot.commands.jankbot._TimeKey;
 import com.jagrosh.jmusicbot.commands.listeners.DurstButtonListener;
 import com.jagrosh.jmusicbot.commands.listeners.JankedexButtonListener;
 import com.jagrosh.jmusicbot.commands.listeners.LogoButtonListener;
@@ -67,12 +72,14 @@ import com.jagrosh.jmusicbot.commands.owner.SetgameCmd;
 import com.jagrosh.jmusicbot.commands.owner.SetnameCmd;
 import com.jagrosh.jmusicbot.commands.owner.SetstatusCmd;
 import com.jagrosh.jmusicbot.commands.owner.ShutdownCmd;
+import com.jagrosh.jmusicbot.commands.tantamod.AddToDurstCmd;
 import com.jagrosh.jmusicbot.commands.tantamod.GenerateGramophonePlaylistCmd;
 import com.jagrosh.jmusicbot.commands.tantamod.SetDJCmd;
 import com.jagrosh.jmusicbot.commands.tantamod.SetGramophoneCmd;
 import com.jagrosh.jmusicbot.commands.tantamod.TalkCmd;
 import com.jagrosh.jmusicbot.entities.Prompt;
 import com.jagrosh.jmusicbot.settings.SettingsManager;
+import org.opencv.core.Core;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,6 +110,7 @@ public class JMusicBot
      */
     public static void main(String[] args)
     {
+        nu.pattern.OpenCV.loadShared();
         // startup log
         Logger log = LoggerFactory.getLogger("Startup");
         
@@ -121,11 +129,14 @@ public class JMusicBot
         config.load();
         if(!config.isValid())
             return;
+
+        //get google maps API contexts
+        GeoApiContext apiContext = new GeoApiContext.Builder().apiKey(_TimeKey.maps_key).build();
         
         // set up the listener
         EventWaiter waiter = new EventWaiter();
         SettingsManager settings = new SettingsManager();
-        Bot bot = new Bot(waiter, config, settings);
+        Bot bot = new Bot(waiter, config, settings, apiContext);
 
         FistchordCmd fc = new FistchordCmd(bot);
         
@@ -186,6 +197,10 @@ public class JMusicBot
                         new SetGramophoneCmd(bot),
                         new TalkCmd(bot),
                         new GenerateGramophonePlaylistCmd(bot),
+                        new TimeCmd(bot, apiContext),
+                        new KittyCmd(bot),
+                        new XkcdCmd(bot),
+                        new AddToDurstCmd(bot),
                         fc
                 );
         if(config.useEval())

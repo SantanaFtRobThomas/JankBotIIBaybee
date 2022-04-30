@@ -23,6 +23,7 @@ import java.util.Timer;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
+import com.google.maps.GeoApiContext;
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.jagrosh.jmusicbot.audio.AloneInVoiceHandler;
@@ -51,6 +52,8 @@ public class Bot {
     private final NowplayingHandler nowplaying;
     private final AloneInVoiceHandler aloneInVoiceHandler;
 
+    private GeoApiContext geoApiContext;
+
     private boolean shuttingDown = false;
     private JDA jda;
     private GUI gui;
@@ -59,7 +62,7 @@ public class Bot {
     private List<Long> gramophone_guilds = new ArrayList<Long>();
     private List<Long> dj_guilds = new ArrayList<Long>();
 
-    public Bot(EventWaiter waiter, BotConfig config, SettingsManager settings) {
+    public Bot(EventWaiter waiter, BotConfig config, SettingsManager settings, GeoApiContext geoApiContext) {
         this.waiter = waiter;
         this.config = config;
         this.settings = settings;
@@ -71,6 +74,11 @@ public class Bot {
         this.nowplaying.init();
         this.aloneInVoiceHandler = new AloneInVoiceHandler(this);
         this.aloneInVoiceHandler.init();
+        this.geoApiContext = geoApiContext;
+    }
+
+    public GeoApiContext getGeoApiContext() {
+        return geoApiContext;
     }
 
     public BotConfig getConfig() {
@@ -139,6 +147,7 @@ public class Bot {
             });
             jda.shutdown();
         }
+        this.geoApiContext.shutdown();
         if (gui != null)
             gui.dispose();
         System.exit(0);

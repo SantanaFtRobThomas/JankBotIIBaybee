@@ -9,7 +9,6 @@ import com.jagrosh.jmusicbot.settings.RepeatMode;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.components.Component;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
 
 public class QueueButtonListener extends ListenerAdapter {

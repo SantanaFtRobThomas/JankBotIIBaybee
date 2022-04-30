@@ -42,27 +42,28 @@ public class GenerateGramophonePlaylistCmd extends TantamodCommand {
                         List<String> urls = new ArrayList<String>();
                         for (int i = all_msgs.size() - 1; i >= 0; i--) rev_msg.add(all_msgs.get(i)); //Collections.reverse() throws a weird error 
                         all_msgs = rev_msg;
-                        String reply = "```\n";
+                        // String reply = "```\n";
                         for (Message m : all_msgs) {
                             Matcher matcher = pattern.matcher(m.getContentRaw());
                             while (matcher.find()) {
                                 urls.add(matcher.group(0));
-                                if (reply.length() > 1950) {
-                                    reply += "```";
-                                    // event.reply(reply);
-                                    reply = "```\nCONTINUED:\n";
-                                }
-                                reply += m.getAuthor().getName() + ": https://www.youtube.com/watch?v="
-                                        + matcher.group(0) + "\n";
+                                // if (reply.length() > 1950) {
+                                //     reply += "```";
+                                //     // event.reply(reply);
+                                //     reply = "```\nCONTINUED:\n";
+                                // }
+                                // reply += m.getAuthor().getName() + ": https://www.youtube.com/watch?v="
+                                //         + matcher.group(0) + "\n";
                             }
                         }
                         if (urls.size() == 0) {
                             event.replyError("No youtube links found in thread.");
                             return;
-                        } else {
-                            reply += "```";
-                        }
-                        // event.reply(reply);
+                        } 
+                        // else {
+                        //     reply += "```";
+                        // }
+                        // // event.reply(reply);
                         try {
                             YouTube svc = GetYoutubeAuth.getService();
                             YouTube.Playlists.Insert playlist = svc.playlists().insert(List.of("snippet", "status"),
