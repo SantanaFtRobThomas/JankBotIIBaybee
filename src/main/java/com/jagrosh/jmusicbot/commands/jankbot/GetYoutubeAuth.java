@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
@@ -22,16 +23,15 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.youtube.YouTube;
 
 public class GetYoutubeAuth {
-    
-    private static final String CLIENT_SECRETS= "/home/calluml/MusicBot/sekrit.json";
-    private static final Collection<String> SCOPES =
-        Arrays.asList("https://www.googleapis.com/auth/youtube.readonly",
-                        "https://www.googleapis.com/auth/youtube.force-ssl",
-                        "https://www.googleapis.com/auth/youtube.upload",
-                        "https://www.googleapis.com/auth/youtubepartner",
-                        "https://www.googleapis.com/auth/youtubepartner-channel-audit",
-                        "https://www.googleapis.com/auth/youtube.channel-memberships.creator",
-                        "https://www.googleapis.com/auth/youtube.third-party-link.creator");
+
+    private static final String CLIENT_SECRETS = "/home/calluml/MusicBot/sekrit.json";
+    private static final Collection<String> SCOPES = Arrays.asList("https://www.googleapis.com/auth/youtube.readonly",
+            "https://www.googleapis.com/auth/youtube.force-ssl",
+            "https://www.googleapis.com/auth/youtube.upload",
+            "https://www.googleapis.com/auth/youtubepartner",
+            "https://www.googleapis.com/auth/youtubepartner-channel-audit",
+            "https://www.googleapis.com/auth/youtube.channel-memberships.creator",
+            "https://www.googleapis.com/auth/youtube.third-party-link.creator");
 
     private static final String APPLICATION_NAME = "JankBot playlist creator";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
@@ -44,17 +44,16 @@ public class GetYoutubeAuth {
      */
     public static Credential authorize(final NetHttpTransport httpTransport) throws IOException {
         // Load client secrets.
-        FileDataStoreFactory fds = new FileDataStoreFactory(new File("/home/calluml/MusicBot/youtube-java-client-secrets"));
-        InputStream in  = new FileInputStream(CLIENT_SECRETS);
-        GoogleClientSecrets clientSecrets =
-          GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+        FileDataStoreFactory fds = new FileDataStoreFactory(
+                new File("/home/calluml/MusicBot/youtube-java-client-secrets"));
+        InputStream in = new FileInputStream(CLIENT_SECRETS);
+        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
         // Build flow and trigger user authorization request.
 
-        GoogleAuthorizationCodeFlow flow =
-            new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets, SCOPES).setDataStoreFactory(fds)
-            .build();
-        Credential credential =
-            new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
+        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY,
+                clientSecrets, SCOPES).setDataStoreFactory(fds)
+                .build();
+        Credential credential = new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
         return credential;
     }
 
@@ -68,7 +67,7 @@ public class GetYoutubeAuth {
         final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         Credential credential = authorize(httpTransport);
         return new YouTube.Builder(httpTransport, JSON_FACTORY, credential)
-            .setApplicationName(APPLICATION_NAME)
-            .build();
+                .setApplicationName(APPLICATION_NAME)
+                .build();
     }
 }

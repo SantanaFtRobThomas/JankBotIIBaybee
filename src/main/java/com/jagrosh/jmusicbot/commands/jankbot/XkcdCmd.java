@@ -22,10 +22,12 @@ public class XkcdCmd extends Command {
 
     public void execute(CommandEvent event) {
         String args = event.getArgs().contains(" ") ? event.getArgs().split(" ")[0] : event.getArgs();
+        boolean random = args.equals("random");
+        if (random) args = "";
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .GET()
-                    .uri(new URI("https://xkcd.com/" + args + "/info.0.json"))
+                    .uri(random ? new URI("https://xkcd.com/info.0.json") : new URI("https://xkcd.com/" + args + "/info.0.json"))
                     .build();
             HttpResponse<String> response = HttpClient.newBuilder().build().send(request, BodyHandlers.ofString());
             if (response.statusCode() == 404) {
@@ -34,6 +36,14 @@ public class XkcdCmd extends Command {
             }
             String json = response.body();
             JsonElement parser = JsonParser.parseString(json);
+            if (random) {
+                int num = (int) (Math.random() * parser.getAsJsonObject().get("num").getAsInt());
+                if(num == 0) num = 1;
+                parser = JsonParser.parseString(HttpClient.newBuilder().build().send(HttpRequest.newBuilder()
+                        .GET()
+                        .uri(new URI("https://xkcd.com/" + Integer.toString(num) + "/info.0.json"))
+                        .build(), BodyHandlers.ofString()).body());
+            }
             String title = parser.getAsJsonObject().get("safe_title").getAsString();
             String img = parser.getAsJsonObject().get("img").getAsString();
             String num = parser.getAsJsonObject().get("num").getAsString();

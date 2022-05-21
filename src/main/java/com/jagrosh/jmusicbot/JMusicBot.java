@@ -47,6 +47,7 @@ import com.jagrosh.jmusicbot.commands.jankbot.TimeCmd;
 import com.jagrosh.jmusicbot.commands.jankbot.XkcdCmd;
 import com.jagrosh.jmusicbot.commands.jankbot._TimeKey;
 import com.jagrosh.jmusicbot.commands.listeners.DurstButtonListener;
+import com.jagrosh.jmusicbot.commands.listeners.FinaleVideoWhenListener;
 import com.jagrosh.jmusicbot.commands.listeners.JankedexButtonListener;
 import com.jagrosh.jmusicbot.commands.listeners.LogoButtonListener;
 import com.jagrosh.jmusicbot.commands.listeners.OtherCommandListener;
@@ -236,6 +237,7 @@ public class JMusicBot
                     new DurstButtonListener(),
                     new QuitSibeliusListener(),
                     new QueueButtonListener(),
+                    new FinaleVideoWhenListener(),
                     new OtherCommandListener(cb.build(), bot))
                     .setBulkDeleteSplittingEnabled(true)
                     .build();
