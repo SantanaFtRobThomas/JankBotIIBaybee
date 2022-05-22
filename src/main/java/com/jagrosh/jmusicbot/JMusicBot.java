@@ -45,6 +45,7 @@ import com.jagrosh.jmusicbot.commands.jankbot.KittyCmd;
 import com.jagrosh.jmusicbot.commands.jankbot.LogoCmd;
 import com.jagrosh.jmusicbot.commands.jankbot.TimeCmd;
 import com.jagrosh.jmusicbot.commands.jankbot.XkcdCmd;
+import com.jagrosh.jmusicbot.commands.jankbot.ResourcesCmd;
 import com.jagrosh.jmusicbot.commands.jankbot._TimeKey;
 import com.jagrosh.jmusicbot.commands.listeners.DurstButtonListener;
 import com.jagrosh.jmusicbot.commands.listeners.FinaleVideoWhenListener;
@@ -52,7 +53,7 @@ import com.jagrosh.jmusicbot.commands.listeners.JankedexButtonListener;
 import com.jagrosh.jmusicbot.commands.listeners.LogoButtonListener;
 import com.jagrosh.jmusicbot.commands.listeners.OtherCommandListener;
 import com.jagrosh.jmusicbot.commands.listeners.QuitSibeliusListener;
-import com.jagrosh.jmusicbot.commands.music.LyricsCmd;
+//import com.jagrosh.jmusicbot.commands.music.LyricsCmd;
 import com.jagrosh.jmusicbot.commands.music.NowplayingCmd;
 import com.jagrosh.jmusicbot.commands.music.PauseCmd;
 import com.jagrosh.jmusicbot.commands.music.PlayCmd;
@@ -78,6 +79,7 @@ import com.jagrosh.jmusicbot.commands.tantamod.GenerateGramophonePlaylistCmd;
 import com.jagrosh.jmusicbot.commands.tantamod.SetDJCmd;
 import com.jagrosh.jmusicbot.commands.tantamod.SetGramophoneCmd;
 import com.jagrosh.jmusicbot.commands.tantamod.TalkCmd;
+import com.jagrosh.jmusicbot.commands.general.TestKtCmd;
 import com.jagrosh.jmusicbot.entities.Prompt;
 import com.jagrosh.jmusicbot.settings.SettingsManager;
 import org.opencv.core.Core;
@@ -154,7 +156,7 @@ public class JMusicBot
                         new PingCommand(),
                         new SettingsCmd(bot),
                         
-                        new LyricsCmd(bot),
+                        //new LyricsCmd(bot),
                         new NowplayingCmd(bot),
                         new PlayCmd(bot),
                         new QueueCmd(bot),
@@ -202,6 +204,8 @@ public class JMusicBot
                         new KittyCmd(bot),
                         new XkcdCmd(bot),
                         new AddToDurstCmd(bot),
+                        new TestKtCmd(),
+                        new ResourcesCmd(bot),
                         fc
                 );
         if(config.useEval())
@@ -257,6 +261,7 @@ public class JMusicBot
                     + "invalid: " + ex + "\nConfig Location: " + config.getConfigLocation());
             System.exit(1);
         }
+        System.out.println("eudsfsdfd");
 
     }
 }

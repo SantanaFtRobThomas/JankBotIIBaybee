@@ -17,3 +17,9 @@ durst/
 images/
 youtube-java-client-secrets/
 _TimeKey.java
+.gradle
+.idea
+build/
+gradle/
+gradlew
+gradlew.bat
