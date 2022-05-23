@@ -16,7 +16,7 @@ public class XkcdCmd extends Command {
 
     public XkcdCmd(Bot bot) {
         this.name = "xkcd";
-        this.help = "XKCD comics.";
+        this.help = "XKCD comics. Use " + bot.getConfig().getPrefix() + "xkcd <number> to get that comic, or the word `random` to get a random comic. If you don't specify a comic number, the latest comic will be shown.";
         this.guildOnly = true;
     }
 

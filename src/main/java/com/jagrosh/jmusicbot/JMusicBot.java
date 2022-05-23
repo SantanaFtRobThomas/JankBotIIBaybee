@@ -36,6 +36,7 @@ import com.jagrosh.jmusicbot.commands.dj.RepeatCmd;
 import com.jagrosh.jmusicbot.commands.dj.SkiptoCmd;
 import com.jagrosh.jmusicbot.commands.dj.StopCmd;
 import com.jagrosh.jmusicbot.commands.dj.VolumeCmd;
+import com.jagrosh.jmusicbot.commands.general.HelpManager;
 import com.jagrosh.jmusicbot.commands.general.SettingsCmd;
 import com.jagrosh.jmusicbot.commands.jankbot.DurstCmd;
 import com.jagrosh.jmusicbot.commands.jankbot.FistchordCmd;
@@ -53,7 +54,6 @@ import com.jagrosh.jmusicbot.commands.listeners.JankedexButtonListener;
 import com.jagrosh.jmusicbot.commands.listeners.LogoButtonListener;
 import com.jagrosh.jmusicbot.commands.listeners.OtherCommandListener;
 import com.jagrosh.jmusicbot.commands.listeners.QuitSibeliusListener;
-//import com.jagrosh.jmusicbot.commands.music.LyricsCmd;
 import com.jagrosh.jmusicbot.commands.music.NowplayingCmd;
 import com.jagrosh.jmusicbot.commands.music.PauseCmd;
 import com.jagrosh.jmusicbot.commands.music.PlayCmd;
@@ -79,7 +79,6 @@ import com.jagrosh.jmusicbot.commands.tantamod.GenerateGramophonePlaylistCmd;
 import com.jagrosh.jmusicbot.commands.tantamod.SetDJCmd;
 import com.jagrosh.jmusicbot.commands.tantamod.SetGramophoneCmd;
 import com.jagrosh.jmusicbot.commands.tantamod.TalkCmd;
-import com.jagrosh.jmusicbot.commands.general.TestKtCmd;
 import com.jagrosh.jmusicbot.entities.Prompt;
 import com.jagrosh.jmusicbot.settings.SettingsManager;
 import org.opencv.core.Core;
@@ -142,6 +141,7 @@ public class JMusicBot
         Bot bot = new Bot(waiter, config, settings, apiContext);
 
         FistchordCmd fc = new FistchordCmd(bot);
+        HelpManager hm = new HelpManager();
         
         // set up the command client
         CommandClientBuilder cb = new CommandClientBuilder()
@@ -149,7 +149,8 @@ public class JMusicBot
                 .setAlternativePrefix(config.getAltPrefix())
                 .setOwnerId(Long.toString(config.getOwnerId()))
                 .setEmojis(config.getSuccess(), config.getWarning(), config.getError())
-                .setHelpWord(config.getHelp())
+                .setHelpWord("help")
+                .setHelpConsumer(hm::showHelp)
                 .setLinkedCacheSize(200)
                 .setGuildSettingsManager(settings)
                 .addCommands(
@@ -204,7 +205,6 @@ public class JMusicBot
                         new KittyCmd(bot),
                         new XkcdCmd(bot),
                         new AddToDurstCmd(bot),
-                        new TestKtCmd(),
                         new ResourcesCmd(bot),
                         fc
                 );
@@ -222,6 +222,8 @@ public class JMusicBot
         }
         else
             cb.setActivity(config.getGame());
+
+        hm.setCommands(cb.build().getCommands());
                 
         log.info("Loaded config from " + config.getConfigLocation());
         

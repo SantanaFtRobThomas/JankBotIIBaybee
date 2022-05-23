@@ -53,7 +53,7 @@ dependencies {
 
 group = 'com.jagrosh'
 version = 'Snapshot'
-sourceCompatibility = '1.8'
+sourceCompatibility = "11"
 
 publishing {
     publications {
@@ -77,3 +77,4 @@ jar {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
  }
+targetCompatibility = JavaVersion.VERSION_11

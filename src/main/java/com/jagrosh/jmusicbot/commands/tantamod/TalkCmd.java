@@ -14,7 +14,7 @@ public class TalkCmd extends TantamodCommand {
     public TalkCmd(Bot bot) {
         super(bot);
         this.name = "say";
-        this.help = "Make the bot say something, or reply.";
+        this.help = "Make the bot say something, or reply. `" + bot.getConfig().getPrefix() + "say #voice_channel [ID of message to reply] <message>`";
         this.hidden = true;
     }
 

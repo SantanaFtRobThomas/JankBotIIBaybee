@@ -32,8 +32,8 @@ class ResourcesCmd(bot: Bot) : Command() {
                                 .setMinValues(1)
                                 .setMaxValues(5)
                                 .build()
+        event.event.message.addReaction("\uD83C\uDD97").queue()
         val r = event.event.message.reply("Select some resources.").setActionRow(menu)
-        event.event.message.addReaction("ok:978252580234866688")
         r.queue { message -> bot.jda.addEventListener(ResourceMenuListener(event.member.id, message, event.event.message))}
     }
 }
@@ -42,6 +42,14 @@ class ResourceMenuListener(user_id: String, orig_msg: Message, orig_usr_msg: Mes
     val user_id: String
     val orig_msg: Message
     val orig_usr_msg: Message
+
+    private val imagesMap = mapOf(
+        "MENU:RESOURCES:FACE" to "/home/calluml/MusicBot/images/components/jankman_face.png",
+        "MENU:RESOURCES:ARM" to "/home/calluml/MusicBot/images/components/jarm.png",
+        "MENU:RESOURCES:LEFTEYE" to "/home/calluml/MusicBot/images/components/eyeleft.png",
+        "MENU:RESOURCES:RIGHTEYE" to "/home/calluml/MusicBot/images/components/eyeright.png",
+        "MENU:RESOURCES:SVG" to "/home/calluml/MusicBot/images/jankman.svg"
+    )
     init {
         this.user_id = user_id
         this.orig_msg = orig_msg
@@ -49,14 +57,8 @@ class ResourceMenuListener(user_id: String, orig_msg: Message, orig_usr_msg: Mes
     }
     
     override fun onSelectMenuInteraction(event: SelectMenuInteractionEvent) {
-        val imagesMap = mapOf(
-            "MENU:RESOURCES:FACE" to "/home/calluml/MusicBot/images/components/jankman_face.png",
-            "MENU:RESOURCES:ARM" to "/home/calluml/MusicBot/images/components/jarm.png",
-            "MENU:RESOURCES:LEFTEYE" to "/home/calluml/MusicBot/images/components/eyeleft.png",
-            "MENU:RESOURCES:RIGHTEYE" to "/home/calluml/MusicBot/images/components/eyeright.png",
-            "MENU:RESOURCES:SVG" to "/home/calluml/MusicBot/images/jankman.svg"
-        )
         val imgs: MutableList<File> = mutableListOf<File>()
+        if (event.message.id != orig_msg.id) return
         if(event.user.id == user_id) {
             for (opt in event.selectedOptions) {
                 imgs.add(File(imagesMap[opt.value]))
@@ -64,13 +66,13 @@ class ResourceMenuListener(user_id: String, orig_msg: Message, orig_usr_msg: Mes
             val r = event.replyFile(imgs[0]).setEphemeral(true)
             if(imgs.size > 1) {
                 for(i in 1 until imgs.size) {
-                    r.addFile(imgs[i]).queue()
+                    r.addFile(imgs[i])
                 }
-            } else {
-                r.queue()
             }
+            r.queue()
             orig_msg.delete().queue()
-            orig_usr_msg.addReaction("white_check_mark:978254300126019624")
+            orig_usr_msg.addReaction("✅").queue()
+            event.jda.removeEventListener(this)
         } else {
             event.reply("Sorry, this dropdown is only for ${orig_usr_msg.author.name}. Please request your own resources.").setEphemeral(true).queue()
         }
