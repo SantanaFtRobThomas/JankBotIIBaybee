@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import com.jagrosh.jmusicbot.Bot;
 import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.entities.Emote
 import java.io.File;
 
 class ResourcesCmd(bot: Bot) : Command() {
@@ -32,6 +33,7 @@ class ResourcesCmd(bot: Bot) : Command() {
                                 .setMaxValues(5)
                                 .build()
         val r = event.event.message.reply("Select some resources.").setActionRow(menu)
+        event.event.message.addReaction("ok:978252580234866688")
         r.queue { message -> bot.jda.addEventListener(ResourceMenuListener(event.member.id, message, event.event.message))}
     }
 }
@@ -64,8 +66,13 @@ class ResourceMenuListener(user_id: String, orig_msg: Message, orig_usr_msg: Mes
                 for(i in 1 until imgs.size) {
                     r.addFile(imgs[i]).queue()
                 }
+            } else {
+                r.queue()
             }
             orig_msg.delete().queue()
+            orig_usr_msg.addReaction("white_check_mark:978254300126019624")
+        } else {
+            event.reply("Sorry, this dropdown is only for ${orig_usr_msg.author.name}. Please request your own resources.").setEphemeral(true).queue()
         }
     }
 } 

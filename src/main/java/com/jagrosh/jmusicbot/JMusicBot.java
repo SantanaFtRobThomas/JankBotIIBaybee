@@ -261,7 +261,5 @@ public class JMusicBot
                     + "invalid: " + ex + "\nConfig Location: " + config.getConfigLocation());
             System.exit(1);
         }
-        System.out.println("eudsfsdfd");
-
     }
 }
