@@ -37,11 +37,10 @@ class TimeCmd(bot: Bot, apiContext: GeoApiContext) : Command() {
     public override fun execute(event: CommandEvent) {
         var args = event.args
         val min: Double
-        val hr: Double
+        var hr: Double
         var reply_txt = ""
         if (args.isEmpty()) {
-            val time: LocalTime
-            time = LocalTime.now()
+            val time: LocalTime = LocalTime.now()
             min = time.minute.toDouble()
             hr = time.hour.toDouble()
             reply_txt += "Time in Jankland:"
@@ -58,7 +57,7 @@ class TimeCmd(bot: Bot, apiContext: GeoApiContext) : Command() {
                     .GET()
                     .uri(
                         URI(
-                            "https://open.mapquestapi.com/geocoding/v1/address?key=" + URLEncoder.encode(
+                            "https://www.mapquestapi.com/geocoding/v1/address?key=" + URLEncoder.encode(
                                 _TimeKey.mapquest_key,
                                 StandardCharsets.UTF_8.toString()
                             )
@@ -77,7 +76,7 @@ class TimeCmd(bot: Bot, apiContext: GeoApiContext) : Command() {
                 val lat = latLng["lat"].asString
                 val lng = latLng["lng"].asString
                 val latlng = LatLng(lat.toDouble(), lng.toDouble())
-                if (lat == "39.78373" && lng == "-100.445882") {
+                if (lat == "38.89037" && lng == "-77.03196") {
                     event.replyError("Couldn't find anywhere for \"$search\".")
                     return
                 }
@@ -100,8 +99,9 @@ class TimeCmd(bot: Bot, apiContext: GeoApiContext) : Command() {
                 return
             }
         }
-        val mins_rotation = 360.0 - min * 6.0
-        val hrs_rotation = 360.0 - (hr * 30 + min) * 0.5
+        val mins_rotation = 360.0 - (min * 6.0)
+        if (hr >= 12) hr -= 12
+        val hrs_rotation = 360.0 - ((hr * 30) + (min * 0.5))
         val face = Imgcodecs.imread("/home/calluml/MusicBot/images/feis.png", Imgcodecs.IMREAD_UNCHANGED)
         val hour = Imgcodecs.imread("/home/calluml/MusicBot/images/ja2.png", Imgcodecs.IMREAD_UNCHANGED)
         val mins = Imgcodecs.imread("/home/calluml/MusicBot/images/ja2.png", Imgcodecs.IMREAD_UNCHANGED)

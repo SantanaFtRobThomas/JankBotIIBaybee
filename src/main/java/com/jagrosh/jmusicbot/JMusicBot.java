@@ -74,14 +74,9 @@ import com.jagrosh.jmusicbot.commands.owner.SetgameCmd;
 import com.jagrosh.jmusicbot.commands.owner.SetnameCmd;
 import com.jagrosh.jmusicbot.commands.owner.SetstatusCmd;
 import com.jagrosh.jmusicbot.commands.owner.ShutdownCmd;
-import com.jagrosh.jmusicbot.commands.tantamod.AddToDurstCmd;
-import com.jagrosh.jmusicbot.commands.tantamod.GenerateGramophonePlaylistCmd;
-import com.jagrosh.jmusicbot.commands.tantamod.SetDJCmd;
-import com.jagrosh.jmusicbot.commands.tantamod.SetGramophoneCmd;
-import com.jagrosh.jmusicbot.commands.tantamod.TalkCmd;
+import com.jagrosh.jmusicbot.commands.tantamod.*;
 import com.jagrosh.jmusicbot.entities.Prompt;
 import com.jagrosh.jmusicbot.settings.SettingsManager;
-import org.opencv.core.Core;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -206,6 +201,7 @@ public class JMusicBot
                         new XkcdCmd(bot),
                         new AddToDurstCmd(bot),
                         new ResourcesCmd(bot),
+                        new ThreadToJSON(bot),
                         fc
                 );
         if(config.useEval())
